@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "name": "Alice",
+    "age": 30,
+    "email": "alice@example.com"
+  },
+  {
+    "id": 2,
+    "name": "Bob",
+    "age": 25,
+    "email": "bob@example.com",
+    "phone": "555-1234"
+  },
+  {
+    "id": 3,
+    "name": "Charlie",
+    "email": "charlie@example.com",
+    "preferences": {
+      "newsletter": true,
+      "notifications": [
+        "email",
+        "sms"
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "name": "David",
+    "age": 40,
+    "address": {
+      "street": "123 Elm St",
+      "city": "Somewhere",
+      "zipcode": "12345"
+    }
+  },
+  {
+    "id": 5,
+    "name": "Eve",
+    "age": 22,
+    "hobbies": [
+      "reading",
+      "gaming"
+    ],
+    "email": "eve@example.com"
+  },
+  {
+    "id": 6,
+    "name": "Frank",
+    "age": 28,
+    "address": {
+      "street": "456 Oak St",
+      "city": "Anywhere"
+    },
+    "preferences": {
+      "newsletter": false
+    }
+  },
+  {
+    "id": 7,
+    "name": "Grace",
+    "email": "grace@example.com",
+    "hobbies": [
+      "hiking",
+      "photography"
+    ],
+    "phone": "555-5678"
+  },
+  {
+    "id": 8,
+    "name": "Heidi",
+    "age": 35,
+    "email": "heidi@example.com",
+    "preferences": {
+      "newsletter": true,
+      "notifications": [
+        "email"
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "name": "Ivan",
+    "email": "ivan@example.com",
+    "phone": "555-8765",
+    "hobbies": [
+      "cycling"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Judy",
+    "age": 29,
+    "email": "judy@example.com",
+    "address": {
+      "street": "789 Pine St",
+      "city": "Elsewhere",
+      "zipcode": "67890"
+    }
+  }
+]
