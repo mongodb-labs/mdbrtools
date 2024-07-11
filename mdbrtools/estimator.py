@@ -27,8 +27,10 @@ def map_bson(b):
 SAMPLE_DB_NAME = "samples"
 
 
-# Get a cardinality estimation via sampling
 class SampleEstimator:
+    """Estimates the cardinality of a query by executing the query on a sampled subset
+    of the collection."""
+
     def __init__(
         self,
         mongo_collection,
@@ -39,6 +41,21 @@ class SampleEstimator:
         sample_db_name=SAMPLE_DB_NAME,
         **kwargs,
     ):
+        """
+        Initializes a SampleEstimator object.
+
+        Args:
+            mongo_collection (MongoCollection): A MongoCollection class object.
+            numrows (int, optional): The number of rows to limit the query to. Defaults to None.
+            sample_ratio (float, optional): The ratio of the collection to sample.
+                Must be between 0 and 1. Defaults to None.
+            sample_size (int, optional): The size of the sample. Must be between 0 and the
+                size of the collection. Defaults to None. Use either sample_ratio or sample_size.
+            persist (bool, optional): Whether to persist the sample collection. Defaults to False.
+            sample_db_name (str, optional): The name of the database to save the sample
+                collection. Defaults to "samples".
+            **kwargs: Additional keyword arguments.
+        """
         # mongoCollection is a MongoCollection class object used to access collection
         self.mongo = mongo_collection
         self.columns = None
@@ -90,9 +107,11 @@ class SampleEstimator:
             self.mongo.collection.aggregate(pipeline, allowDiskUse=True)
 
     def get_cardinality(self):
+        """returns the cardinality of the collection (or limit, if one was set with `num_rows`)"""
         return self.limit or self.mongo.count
 
     def make_pipeline(self, query):
+        """generates the pipeline used to create the sample."""
         pipeline = [
             {"$match": query.to_mql()},
             {"$count": "total"},
@@ -138,11 +157,12 @@ class SampleEstimator:
             return 0
 
     def drop_sample(self):
-        # drops any persisted samples in the samples database
+        """drops any persisted samples in the samples database"""
         coll_name = self.mongo.collection_name
         return self.mongo.client[self.sample_db_name][coll_name].drop()
 
-    def sample(self, query, n):
+    def sample(self, query, n) -> pd.DataFrame:
+        """Returns a sample of n results for a query as a DataFrame"""
         pipeline = [
             {"$match": query.to_mql()},
             {"$sample": {"size": n}},

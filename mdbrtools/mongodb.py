@@ -20,7 +20,7 @@ class MongoCollection(object):
         self.last_index = None
 
     def _get_query_options(self, query):
-        """returns sort, limit and projection of a query in dictionary form."""
+        """Returns sort, limit and projection of a query in dictionary form."""
         if isinstance(query, dict):
             return {"sort": None, "limit": 0, "projection": None}
 
@@ -36,6 +36,7 @@ class MongoCollection(object):
         return {"sort": sort, "limit": limit, "projection": projection}
 
     def _parse_winning_plan(self, explain):
+        """Parses the winning plan from the explain output."""
         stages = []
         doc = explain["executionStages"]
         while "stage" in doc:
@@ -76,7 +77,7 @@ class MongoCollection(object):
         return result["executionStats"]
 
     def execute_workload(self, workload, explain=True):
-        """executes a query workload and returns the time in milliseconds it took."""
+        """Executes a query workload and returns the time in milliseconds it took."""
         exec_time = 0
         t = time.time()
         for i, query in enumerate(workload):
@@ -103,7 +104,7 @@ class MongoCollection(object):
         return [idx.get("name") for idx in self.collection.list_indexes()]
 
     def create_index(self, index):
-        """create an index on the collection. index is a field tuple. e.g. ("foo", "bar")
+        """Creates an index on the collection. index is a field tuple. e.g. ("foo", "bar")
         which would create the index {"foo": 1, "bar": 1}.
         """
         asc = [ASCENDING] * len(index)
@@ -114,7 +115,7 @@ class MongoCollection(object):
         self.collection.create_index(index, name=index_name)
 
     def drop_last_index(self):
-        """drops the last index created with create_index(). Only one index can be
+        """Drops the last index created with create_index(). Only one index can be
         removed this way (not a stack).
         """
         if self.last_index:
@@ -122,6 +123,6 @@ class MongoCollection(object):
             self.last_index = None
 
     def drop_indexes(self):
-        """drops all indexes of the given collection."""
+        """Drops all indexes of the given collection."""
         self.last_index = None
         self.collection.drop_indexes()
