@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name="mdbrtools",
-    version="0.1.0",
+    version="0.1.1",
     description="Collection of tools for schema parsing and workload generation used by MongoDB Research",
     long_description=readme(),
     long_description_content_type="text/markdown",
