@@ -170,7 +170,7 @@ def _get_type(val: Any):
     """Returns the type of a value, and the type class."""
     type_str = type(val).__name__
 
-    if type_str == "dict":
+    if type_str in ["dict", "OrderedDict"]:
         return "document", Document
     elif type_str == "list":
         return "array", Array

@@ -1,4 +1,5 @@
 import unittest
+from collections import OrderedDict
 
 from mdbrtools.schema import (
     Field,
@@ -79,6 +80,23 @@ class TestParseSchema(unittest.TestCase):
             [
                 {"foo": {"bar": 1}},
                 {"foo": {"bar": 2, "baz": 3}},
+            ]
+        )
+
+        self.assertEqual(schema.count, 2)
+        self.assertEqual(schema["foo"].types["document"].count, 2)
+        self.assertFalse(schema["foo"].has_missing)
+        self.assertEqual(schema["foo.bar"].types["int"].values, [1, 2])
+        self.assertFalse(schema["foo.bar"].has_missing)
+
+        self.assertEqual(schema["foo.baz"]["int"].values, [3])
+        self.assertTrue(schema["foo.baz"].has_missing)
+
+    def test_ordered_dicts(self):
+        schema = parse_schema(
+            [
+                {"foo": OrderedDict({"bar": 1})},
+                OrderedDict({"foo": {"bar": 2, "baz": 3}}),
             ]
         )
 
